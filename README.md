@@ -42,7 +42,7 @@ ARLR-Net is evaluated under three subpixel division settings:
 
 The c = 3 configuration is adopted as the primary setting for method comparison, ablation studies, and qualitative analysis, while c = 5 and c = 7 are used for cross-scale evaluation.
 
-## The network
+## 📚 The network
 
 Overview of the proposed ARLR-Net. The framework consists of an L-stage deep unfolding network for adaptive target reconstruction and a Subpixel Offset module for localization refinement.
 
