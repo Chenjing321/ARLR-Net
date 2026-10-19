@@ -42,9 +42,9 @@ ARLR-Net is evaluated under three subpixel division settings:
 
 The c = 3 configuration is adopted as the primary setting for method comparison, ablation studies, and qualitative analysis, while c = 5 and c = 7 are used for cross-scale evaluation.
 
-## 📚 The network
+## 📚 Network Architecture
 
-Overview of the proposed ARLR-Net. The framework consists of an L-stage deep unfolding network for adaptive target reconstruction and a Subpixel Offset module for localization refinement.
+The framework consists of an L-stage deep unfolding network for adaptive target reconstruction and a Subpixel Offset module for localization refinement.
 
 Each unfolding stage integrates KernelMix, Multi-context Adaptive Thresholding, and a reconstruction mapping. KernelMix constructs sample-adaptive convolutional kernels to accommodate varying target configurations, while Multi-context Adaptive Thresholding incorporates channel, local, and long-range contextual information to improve target separation.
 
@@ -54,7 +54,6 @@ The network is jointly optimized using reconstruction loss, symmetry loss, and o
 
 ## 📊 Comparison with state-of-the-art methods
 Quantitative comparison with representative methods on the CSIST-100K dataset under the primary c = 3 setting.
----
 
 | Method          | #P      | FLOPs   | CSO-mAP | AP-05 | AP-10 | AP-15 | AP-20 | AP-25 | PSNR (dB) | SSIM (%) |
 | --------------- | ------- | ------- | ------- | ----- | ----- | ----- | ----- | ----- | --------- | -------- |
@@ -86,6 +85,7 @@ Cross-scale evaluation is conducted under c = 5 and c = 7 to assess the effectiv
 | c = 5 | ARLR-Net (Ours) | 5.267M | 4.524G | 79.58       |
 
 | Scale | Method          | #P     | FLOPs  | CSO-mAP (%) |
+| ----- | --------------- | ------ | ------ | ----------- |
 | c = 7 | DISTA-Net       | 6.409M | 6.085G | 73.12       |
 | c = 7 | ISTA-Net+       | 0.150M | 3.068G | 70.32       |
 | c = 7 | SRFBN           | 0.889M | 0.158G | 72.58       |
@@ -93,7 +93,7 @@ Cross-scale evaluation is conducted under c = 5 and c = 7 to assess the effectiv
 
 ARLR-Net achieves the highest CSO-mAP at both magnification factors, demonstrating consistent performance across different spatial resolutions.
 
-### 🛠️Environment Preparation  
+### 🛠️ Environment Preparation  
 #### Installation
 The experiments were implemented using Python 3.9, PyTorch 2.1.2, MMCV 2.1.0, MMDetection 3.3.0, and MMEngine.
 
@@ -134,9 +134,9 @@ python -m pip check
 python -c "import torch, mmcv, mmdet, arlr; print('ARLR-Net installation successful!')"
 ```
 
-### 📄Data preparation
+### 📄 Data preparation
 
-#### 👀dataset directory format is as follows：
+#### 👀 dataset directory format is as follows：
 
 ```shell
 data/
@@ -150,7 +150,7 @@ data/
 │   ├── a_phi_5.mat                # 5x sub-pixel division
 │   └── a_phi_7.mat                # 7x sub-pixel division
 │
-└── cso_data/                       # CSO Dateset
+└── cso_data/                       # CSO Dataset
     ├── train/                      # (80,000 samples)
     │   ├── Annotations/           
     │   │   ├── CSO_00000.xml      
@@ -174,28 +174,28 @@ data/
 Models at different magnification factors are trained independently. The network is optimized using Adam with a learning rate of 1e-4 and a batch size of 64.
 The c = 3 model is trained for 100 epochs, while the c = 5 and c = 7 models are trained for 250 epochs.
 
-#### ✨Train：
+#### ✨ Train：
 
 ```
 # c = 3  
 CUDA_VISIBLE_DEVICES=0 python tools/train.py --config configs/c_3/arlr.py
   
 # c = 5  
-CUDA_VISIBLE_DEVICES=0 python tools/train.py --config configs/c_5/alrl.py
+CUDA_VISIBLE_DEVICES=0 python tools/train.py --config configs/c_5/arlr.py
   
 # c = 7  
-CUDA_VISIBLE_DEVICES=0 python tools/train.py --config configs/c_7/alrl.py   
+CUDA_VISIBLE_DEVICES=0 python tools/train.py --config configs/c_7/arlr.py   
 ```
 
-#### ✨Test：
+#### ✨ Test：
 
 ```
 # c = 3  
-CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_3/cso_ablation_07_full.py --checkpoint /path/to/arlr_c3_checkpoint.pth --work-dir work_dirs/arlr_c3_test
+CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_3/arlr.py --checkpoint work_dir/pth/arlr/best_cso_metric_mAP_epoch_48.pth --work-dir work_dirs/arlr_c3_test
   
 # c = 5  
-CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_5/alrl.py --checkpoint /path/to/arlr_c5_checkpoint.pth --work-dir work_dirs/arlr_c5_test
+CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_5/arlr.py --checkpoint work_dir/pth/c5/arlr/best_cso_metric_mAP_epoch_162.pth --work-dir work_dirs/arlr_c5_test
   
 # c = 7  
-CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_7/alrl.py --checkpoint /path/to/arlr_c7_checkpoint.pth --work-dir work_dirs/arlr_c7_test
+CUDA_VISIBLE_DEVICES=0 python tools/test.py --config configs/c_7/arlr.py --checkpoint work_dir/pth/c7/arlr/best_cso_metric_mAP_epoch_216.pth --work-dir work_dirs/arlr_c7_test
 ```
