@@ -20,3 +20,10 @@ __pycache__/
 # Temporary files
 *.tmp
 .DS_Store
+
+# Ablation configurations
+configs/c_3/cso_ablation_*.py
+configs/c_3/cso_reference_original_impl.py
+
+arlr/.mim/configs/c_3/cso_ablation_*.py
+arlr/.mim/configs/c_3/cso_reference_original_impl.py

@@ -20,30 +20,9 @@ The dataset contains 100,000 synthetic samples, divided into 80,000 training sam
 
 Download: [Baidu Pan](https://pan.baidu.com/s/1nuedV5Okng8rgFWKy_sMoA?pwd=Grok) / [OneDrive](https://1drv.ms/f/c/698f69b8b2172561/EnQbsEb_rXpJlsNXinWyBbsBkhCsnSPM7UEgtczt7FDjmQ).
 
-### Simulation Parameters
-
-| Parameter           | Value/Range              |
-|---------------------|--------------------------|
-| Imaging Size        | 11×11 pixels             |
-| $σ_{PSF}$           | 0.5 pixel                |
-| Targets per Image   | 1–5 (random)             |
-| Intensity Range     | 220–250 units (uniform)  |
-| Spatial Constraints | Sub-pixel coordinates within a pixel + 0.52 Rayleigh unit separation |
-
-### Subpixel Division Settings
-
-ARLR-Net is evaluated under three subpixel division settings:
-
-| Magnification Factor | Output Size |
-|----------------------|-------------|
-| c = 3                | 33 × 33     |
-| c = 5                | 55 × 55     |
-| c = 7                | 77 × 77     |
-
-The c = 3 configuration is adopted as the primary setting for method comparison, ablation studies, and qualitative analysis, while c = 5 and c = 7 are used for cross-scale evaluation.
-
 ## 📚 Network Architecture
 
+![ARLR-Net Architecture](./pictures/arlr-net.png)
 The framework consists of an L-stage deep unfolding network for adaptive target reconstruction and a Subpixel Offset module for localization refinement.
 
 Each unfolding stage integrates KernelMix, Multi-context Adaptive Thresholding, and a reconstruction mapping. KernelMix constructs sample-adaptive convolutional kernels to accommodate varying target configurations, while Multi-context Adaptive Thresholding incorporates channel, local, and long-range contextual information to improve target separation.
@@ -136,39 +115,6 @@ python -c "import torch, mmcv, mmdet, arlr; print('ARLR-Net installation success
 
 ### 📄 Data preparation
 
-#### 👀 dataset directory format is as follows：
-
-```shell
-data/
-├── initial_matrix/
-│   ├── Q_3.mat                     # 3×3 sub-pixel division
-│   ├── Q_5.mat                     # 5×5 sub-pixel division
-│   └── Q_7.mat                     # 7×7 sub-pixel division
-│
-├── sampling_matrix/
-│   ├── a_phi_0_3.mat              # 3x sub-pixel division
-│   ├── a_phi_5.mat                # 5x sub-pixel division
-│   └── a_phi_7.mat                # 7x sub-pixel division
-│
-└── cso_data/                       # CSO Dataset
-    ├── train/                      # (80,000 samples)
-    │   ├── Annotations/           
-    │   │   ├── CSO_00000.xml      
-    │   │   ├── ...
-    │   │   └── CSO_79999.xml
-    │   └── cso_img/               # Infrared image files
-    │       ├── image_00000.png    
-    │       ├── ...
-    │       └── image_79999.png
-    │
-    ├── val/                        
-    │   ├── Annotations/           # 80000-89999
-    │   └── cso_img/
-    │
-    └── test/                       
-        ├── Annotations/           # 90000-99999
-        └── cso_img/
-```
 ### 🚀 Training and Testing
 
 Models at different magnification factors are trained independently. The network is optimized using Adam with a learning rate of 1e-4 and a batch size of 64.
