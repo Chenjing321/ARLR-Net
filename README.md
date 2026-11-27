@@ -1,18 +1,18 @@
 
-# ARLR-Net: Adaptive Reconstruction and Localization Refinement for Closely-Spaced Infrared Small Target Unmixing
+# Beyond Recovery: Unmixing Closely-Spaced Infrared Small Targets with Continuous Localization
 
 ## 📘 Introduction
-Closely-spaced infrared small targets often merge into a single mixed spot due to overlapping image responses, making individual target separation and accurate localization challenging. Variations in target number, radiometric intensities, and relative positions further complicate target reconstruction, while discrete-grid predictions introduce residual subpixel localization errors.
+Closely-spaced infrared small target unmixing aims to separate overlapping target responses and accurately determine individual target locations. However, variations in target number, intensity, and relative positions complicate the recovery of individual targets. Moreover, successful target recovery does not necessarily guarantee accurate localization due to quantization errors introduced by discrete-grid representations.
 
-To address these challenges, we propose ARLR-Net, an interpretable deep unfolding network that integrates adaptive kernel mixture and dual-level information compensation for closely-spaced infrared small target unmixing.
+To address these challenges, we propose ARLR-Net (Adaptive Reconstruction and Localization Refinement Network), which integrates adaptive target reconstruction and continuous coordinate refinement within a unified unmixing framework.
 
-The proposed framework consists of three key components:
+The proposed framework incorporates three key components:
 
-- KernelMix: Dynamically combines multiple kernels to construct a sample-adaptive effective kernel, improving reconstruction adaptability to varying target configurations.
-- Multi-context Adaptive Thresholding: Integrates channel, local, and long-range contextual information to generate adaptive thresholds, improving the separation of overlapping targets.
-- Subpixel Offset: Estimates bounded two-dimensional residual displacements to compensate for discrete-grid quantization errors and refine target locations.
+- KernelMix: Enables sample-adaptive feature transformation to accommodate varying target configurations.
+- Multi-context Adaptive Thresholding: Exploits complementary contextual information to regulate feature shrinkage and enhance the separability of overlapping target responses.
+- Subpixel Offset: Estimates residual coordinate displacements to reduce grid quantization errors and refine target locations in the continuous domain.
 
-Experimental results on the CSIST-100K benchmark demonstrate the effectiveness of ARLR-Net in target separation and subpixel localization.
+Experimental results on the CSIST-100K benchmark demonstrate the superior unmixing performance of ARLR-Net across different magnification factors.
 
 ## 🗂 CSIST-100K Dataset
 ARLR-Net is evaluated on the publicly available CSIST-100K dataset introduced by DISTA-Net.
@@ -23,13 +23,13 @@ Download: [Baidu Pan](https://pan.baidu.com/s/1nuedV5Okng8rgFWKy_sMoA?pwd=Grok) 
 ## 📚 Network Architecture
 
 ![ARLR-Net Architecture](./pictures/arlr-net.png)
-The framework consists of an L-stage deep unfolding network for adaptive target reconstruction and a Subpixel Offset module for localization refinement.
+ARLR-Net integrates adaptive target reconstruction and continuous coordinate refinement within a unified framework.
 
-Each unfolding stage integrates KernelMix, Multi-context Adaptive Thresholding, and a reconstruction mapping. KernelMix constructs sample-adaptive convolutional kernels to accommodate varying target configurations, while Multi-context Adaptive Thresholding incorporates channel, local, and long-range contextual information to improve target separation.
+The reconstruction process employs an L-stage deep unfolding architecture, in which adaptive kernel mixing and contextual threshold regulation jointly enhance the separability of overlapping target responses.
 
-After the final unfolding stage, discrete target candidates are extracted from the reconstructed intensity map. Subpixel Offset then predicts bounded two-dimensional residual displacements to refine the candidate coordinates in the continuous domain.
+Based on the reconstructed intensity map, residual coordinate estimation refines discrete target locations into continuous coordinates, reducing localization errors caused by grid quantization.
 
-The network is jointly optimized using reconstruction loss, symmetry loss, and offset loss.
+The entire network is jointly optimized using reconstruction loss, symmetry loss, and offset loss.
 
 ## 📊 Comparison with state-of-the-art methods
 Quantitative comparison with representative methods on the CSIST-100K dataset under the primary c = 3 setting.
