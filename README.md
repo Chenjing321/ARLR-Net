@@ -24,11 +24,8 @@ Download: [Baidu Pan](https://pan.baidu.com/s/1nuedV5Okng8rgFWKy_sMoA?pwd=Grok) 
 
 ![ARLR-Net Architecture](./pictures/arlr-net.png)
 ARLR-Net integrates adaptive target reconstruction and continuous coordinate refinement within a unified framework.
-
 The reconstruction process employs an L-stage deep unfolding architecture, in which adaptive kernel mixing and contextual threshold regulation jointly enhance the separability of overlapping target responses.
-
 Based on the reconstructed intensity map, residual coordinate estimation refines discrete target locations into continuous coordinates, reducing localization errors caused by grid quantization.
-
 The entire network is jointly optimized using reconstruction loss, symmetry loss, and offset loss.
 
 ## 📊 Comparison with state-of-the-art methods
